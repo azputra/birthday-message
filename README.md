@@ -9,4 +9,4 @@
 6. on project directory `npm run start` and enter
 
 # Link Documentation Postman
-https://documenter.getpostman.com/view/20870461/2s9XxyQshc
+https://documenter.getpostman.com/view/9975467/2s9Xy2QCiu
