@@ -16,15 +16,17 @@ function sendBirthdayEmail(email, message) {
             },
             data : data
         };
-        axios.request(config)
+        return axios.request(config)
         .then((response) => {
-            console.log('Email sent:', response.data);
+            // console.log('Email sent:', response.data);
+            return {email: email, data : response.data}
         }).catch((err) => {
             if (err.response.status === 502 || err.response.status === 500) {
                 console.log('Error sending email, Resend Email')
                 sendBirthdayEmail(email, message)
             }
             console.error('Error sending email:', err.response.status);    
+            return Promise.reject(err.response.status);
         });
     } catch (error) {
         if (error.response.status === 502 || error.response.status === 500) {
@@ -32,6 +34,7 @@ function sendBirthdayEmail(email, message) {
             sendBirthdayEmail(email, message)
         }
         console.error('Error sending email:', error.response.status);
+        return Promise.reject(error.response.status);
     }
 }
 

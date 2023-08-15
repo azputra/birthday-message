@@ -20,9 +20,16 @@ const birthdayCronJob = new cron.CronJob('0 9 * * *', async () => {
     try {
         const today = new Date();
         const usersWithBirthday = await getUserWithBirthday(today);
+        const sendEmailPromises = [];
         for (const user of usersWithBirthday) {
             const message = `Hey, ${user.firstName} ${user.lastName}, it's your birthday`;
-            await sendBirthdayEmail(user.email, message);
+            sendEmailPromises.push(sendBirthdayEmail(user.email, message))
+            Promise.all(sendEmailPromises)
+            .then((result) => {
+                console.log(result)
+            }).catch((err) => {
+                console.error('Error promise:', err);
+            });
         }
     } catch (error) {
         console.error('Error processing cron job:', error);
